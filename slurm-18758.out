@@ -1,0 +1,12 @@
+0
+training set size: 179820
+push set size: 5995
+test set size: 5794
+batch size: 80
+vgg19 224 (1000, 128, 1, 1) 200 log regular
+start training
+epoch: 	0
+	warm
+	train
+0it [00:00, ?it/s]1it [00:01,  1.60s/it]2it [00:01,  1.24it/s]3it [00:02,  1.42it/s]4it [00:02,  1.88it/s]5it [00:03,  1.65it/s]6it [00:03,  2.03it/s]7it [00:04,  1.69it/s]8it [00:04,  2.05it/s]9it [00:05,  1.73it/s]10it [00:05,  2.07it/s]11it [00:06,  1.79it/s]12it [00:06,  2.12it/s]13it [00:07,  1.71it/s]14it [00:07,  2.06it/s]15it [00:08,  1.76it/s]16it [00:08,  2.09it/s]17it [00:09,  1.78it/s]18it [00:09,  2.12it/s]19it [00:10,  1.74it/s]20it [00:11,  2.08it/s]21it [00:11,  1.77it/s]22it [00:12,  2.09it/s]23it [00:12,  1.83it/s]24it [00:13,  2.17it/s]25it [00:13,  1.85it/s]26it [00:14,  2.19it/s]27it [00:14,  1.84it/s]28it [00:15,  2.13it/s]29it [00:15,  1.80it/s]30it [00:16,  2.14it/s]31it [00:16,  1.81it/s]32it [00:17,  2.14it/s]slurmstepd-morgoth: error: *** JOB 18758 ON morgoth CANCELLED AT 2022-09-29T13:31:39 ***
+33it [00:18,  1.42it/s]34it [00:18,  1.56it/s]35it [00:22,  1.48s/it]36it [00:22,  1.23s/it]37it [00:23,  1.17s/it]38it [00:24,  1.03it/s]39it [00:26,  1.23s/it]40it [00:26,  1.06s/it]41it [00:28,  1.13s/it]42it [00:29,  1.26s/it]43it [00:31,  1.41s/it]44it [00:32,  1.25s/it]45it [00:34,  1.58s/it]46it [00:38,  2.16s/it]47it [00:46,  3.82s/it]

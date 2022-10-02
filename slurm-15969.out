@@ -1,0 +1,45 @@
+0
+training set size: 179820
+push set size: 5995
+test set size: 5794
+batch size: 256
+vgg19 224 (2000, 128, 1, 1) 200 log regular
+start training
+epoch: 	0
+	warm
+	train
+0it [00:00, ?it/s]1it [00:07,  7.45s/it]2it [00:08,  3.55s/it]2it [00:08,  4.49s/it]
+Traceback (most recent call last):
+  File "main.py", line 162, in <module>
+    _ = tnt.train(model=ppnet_multi, dataloader=train_loader, optimizer=warm_optimizer,
+  File "/accounts/projects/binyu/jiaxun1218/ProtoPNet/train_and_test.py", line 133, in train
+    return _train_or_test(model=model, dataloader=dataloader, optimizer=optimizer,
+  File "/accounts/projects/binyu/jiaxun1218/ProtoPNet/train_and_test.py", line 34, in _train_or_test
+    output, min_distances = model(input)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/parallel/data_parallel.py", line 159, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/accounts/projects/binyu/jiaxun1218/ProtoPNet/model.py", line 191, in forward
+    distances = self.prototype_distances(x)
+  File "/accounts/projects/binyu/jiaxun1218/ProtoPNet/model.py", line 178, in prototype_distances
+    conv_features = self.conv_features(x)
+  File "/accounts/projects/binyu/jiaxun1218/ProtoPNet/model.py", line 124, in conv_features
+    x = self.features(x)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/accounts/projects/binyu/jiaxun1218/ProtoPNet/vgg_features.py", line 41, in forward
+    x = self.features(x)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/container.py", line 117, in forward
+    input = module(input)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 423, in forward
+    return self._conv_forward(input, self.weight)
+  File "/usr/local/linux/anaconda3.8/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 419, in _conv_forward
+    return F.conv2d(input, weight, self.bias, self.stride,
+RuntimeError: CUDA out of memory. Tried to allocate 3.06 GiB (GPU 0; 11.91 GiB total capacity; 3.30 GiB already allocated; 1.33 GiB free; 9.83 GiB reserved in total by PyTorch)

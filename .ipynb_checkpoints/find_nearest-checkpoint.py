@@ -58,7 +58,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                                          full_save=False, # save all the images
                                          root_dir_for_saving_images='./nearest',
                                          log=print,
-                                         prototype_activation_function_in_numpy=None):
+                                         prototype_activation_function_in_numpy=None, heatmap_ratio = 1.0):
     prototype_network_parallel.eval()
     '''
     full_save=False will only return the class identity of the closest
@@ -66,6 +66,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
     '''
     log('find nearest patches')
     start = time.time()
+    print(heatmap_ratio)
     n_prototypes = prototype_network_parallel.module.num_prototypes
     
     prototype_shape = prototype_network_parallel.module.prototype_shape
@@ -96,6 +97,8 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
 
         #protoL_input_ = np.copy(protoL_input_torch.detach().cpu().numpy())
         proto_dist_ = np.copy(proto_dist_torch.detach().cpu().numpy())
+        
+        # proto_dist_: (80, 1000, 7, 7)
 
         for img_idx, distance_map in enumerate(proto_dist_):
             for j in range(n_prototypes):
@@ -144,7 +147,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                                                    distance=closest_patch_distance_to_prototype_j)
 
 
-                # add to the j-th heap
+                # add to the j-th heap 
                 if len(heaps[j]) < k:
                     heapq.heappush(heaps[j], closest_patch)
                 else:
@@ -170,9 +173,9 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
 
             for i, patch in enumerate(heaps[j]):
                 # save the activation pattern of the original image where the patch comes from
-                np.save(os.path.join(dir_for_saving_images,
-                                     'nearest-' + str(i+1) + '_act.npy'),
-                        patch.act_pattern)
+                #np.save(os.path.join(dir_for_saving_images,
+                #                     'nearest-' + str(i+1) + '_act.npy'),
+                #        patch.act_pattern)
                 
                 # save the original image where the patch comes from
                 #plt.imsave(fname=os.path.join(dir_for_saving_images,
@@ -191,21 +194,25 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                 heatmap = cv2.applyColorMap(np.uint8(255*rescaled_act_pattern), cv2.COLORMAP_JET)
                 heatmap = np.float32(heatmap) / 255
                 heatmap = heatmap[...,::-1]
-                overlayed_original_img = 0.5 * patch.original_img + 0.3 * heatmap
-                np.save(os.path.join(dir_for_saving_images,
-                                     'nearest-' + str(i+1) + '_original_with_heatmap.npy'),
-                        overlayed_original_img)
-                #plt.imsave(fname=os.path.join(dir_for_saving_images,
-                #                              'nearest-' + str(i+1) + '_original_with_heatmap.png'),
-                #           arr=overlayed_original_img,
-                #           vmin=0.0,
-                #           vmax=1.0)
+               
+                overlayed_original_img = 0.5 * patch.original_img + heatmap_ratio * heatmap
+                overlayed_original_img = overlayed_original_img - np.amin(overlayed_original_img)
+                overlayed_original_img = overlayed_original_img / np.amax(overlayed_original_img)
+                #np.save(os.path.join(dir_for_saving_images,
+                #                     'nearest-' + str(i+1) + '_original_with_heatmap.npy'),
+                #        overlayed_original_img)
+                
+                plt.imsave(fname=os.path.join(dir_for_saving_images,
+                                              'nearest-' + str(i+1) + '_original_with_heatmap.png'),
+                           arr=overlayed_original_img,
+                           vmin=0.0,
+                           vmax=1.0)
                 
                 # if different from original image, save the patch (i.e. receptive field)
-                if patch.patch.shape[0] != img_size or patch.patch.shape[1] != img_size:
-                    np.save(os.path.join(dir_for_saving_images,
-                                         'nearest-' + str(i+1) + '_receptive_field_indices.npy'),
-                            patch.patch_indices)
+                #if patch.patch.shape[0] != img_size or patch.patch.shape[1] != img_size:
+                #    np.save(os.path.join(dir_for_saving_images,
+                #                         'nearest-' + str(i+1) + '_receptive_field_indices.npy'),
+                #            patch.patch_indices)
                     #plt.imsave(fname=os.path.join(dir_for_saving_images,
                     #                          'nearest-' + str(i+1) + '_receptive_field.png'),
                     #           arr=patch.patch,
@@ -224,22 +231,22 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                 high_act_patch_indices = find_high_activation_crop(upsampled_act_pattern)
                 high_act_patch = patch.original_img[high_act_patch_indices[0]:high_act_patch_indices[1],
                                                     high_act_patch_indices[2]:high_act_patch_indices[3], :]
-                np.save(os.path.join(dir_for_saving_images,
-                                     'nearest-' + str(i+1) + '_high_act_patch_indices.npy'),
-                        high_act_patch_indices)
+                #np.save(os.path.join(dir_for_saving_images,
+                #                     'nearest-' + str(i+1) + '_high_act_patch_indices.npy'),
+                #        high_act_patch_indices)
                 #plt.imsave(fname=os.path.join(dir_for_saving_images,
                 #                              'nearest-' + str(i+1) + '_high_act_patch.png'),
                 #           arr=high_act_patch,
                 #           vmin=0.0,
                 #           vmax=1.0)
                 # save the original image with bounding box showing high activation patch
-                imsave_with_bbox(fname=os.path.join(dir_for_saving_images,
-                                       'nearest-' + str(i+1) + '_high_act_patch_in_original_img.png'),
-                                 img_rgb=patch.original_img,
-                                 bbox_height_start=high_act_patch_indices[0],
-                                 bbox_height_end=high_act_patch_indices[1],
-                                 bbox_width_start=high_act_patch_indices[2],
-                                 bbox_width_end=high_act_patch_indices[3], color=(0, 255, 255))
+                #imsave_with_bbox(fname=os.path.join(dir_for_saving_images,
+                #                       'nearest-' + str(i+1) + '_high_act_patch_in_original_img.png'),
+                #                 img_rgb=patch.original_img,
+                #                 bbox_height_start=high_act_patch_indices[0],
+                #                 bbox_height_end=high_act_patch_indices[1],
+                #                 bbox_width_start=high_act_patch_indices[2],
+                #                 bbox_width_end=high_act_patch_indices[3], color=(0, 255, 255))
             
             labels = np.array([patch.label for patch in heaps[j]])
             np.save(os.path.join(dir_for_saving_images, 'class_id.npy'),

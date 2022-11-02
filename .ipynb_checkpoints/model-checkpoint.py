@@ -167,6 +167,7 @@ class PPNet(nn.Module):
         xp = F.conv2d(input=x, weight=self.prototype_vectors)
         intermediate_result = - 2 * xp + p2_reshape  # use broadcast
         # x2_patch_sum and intermediate_result are of the same shape
+        # (x-p)**2
         distances = F.relu(x2_patch_sum + intermediate_result)
 
         return distances

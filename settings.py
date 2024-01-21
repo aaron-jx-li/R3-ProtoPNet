@@ -1,13 +1,14 @@
-base_architecture = 'vgg19'
+base_architecture = 'resnet34'
 img_size = 224
-prototype_shape = (1000, 128, 1, 1)
+prototype_shape = (2000, 256, 1, 1)
 num_classes = 200
 prototype_activation_function = 'log'
 add_on_layers_type = 'regular'
 
 experiment_run = '009'
 
-data_path = '/accounts/projects/binyu/jiaxun1218/data/CUB_200_2011_cropped/'
+# data_path = '/scratch/users/jiaxun1218/data/' # czh
+data_path = '/scratch/users/jiaxun1218/car_data/' # czh
 train_dir = data_path + 'train_cropped_augmented/'
 test_dir = data_path + 'test_cropped/'
 train_push_dir = data_path + 'train_cropped/'
@@ -32,9 +33,9 @@ coefs = {
     'l1': 1e-4,
 }
 
-num_train_epochs = 405 #405
+num_train_epochs = 50 #405
 num_warm_epochs = 5
 
 push_start = 0
-push_saved_epochs = [0, 10, 30, 70, 100, 200, 300, 405]
-push_epochs = [0, 10, 30, 70, 100, 200, 300, 405]
+push_saved_epochs = [10, 70, 100, 200, 300, 405]
+push_epochs = [10, 50, 70, 100, 200, 300, 405]

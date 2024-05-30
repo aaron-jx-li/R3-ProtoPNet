@@ -207,6 +207,11 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                            arr=overlayed_original_img,
                            vmin=0.0,
                            vmax=1.0)
+                plt.imsave(fname=os.path.join(dir_for_saving_images,
+                                              'nearest-' + str(i+1) + '_original.png'),
+                           arr=patch.original_img,
+                           vmin=0.0,
+                           vmax=1.0)
                 
                 # if different from original image, save the patch (i.e. receptive field)
                 #if patch.patch.shape[0] != img_size or patch.patch.shape[1] != img_size:

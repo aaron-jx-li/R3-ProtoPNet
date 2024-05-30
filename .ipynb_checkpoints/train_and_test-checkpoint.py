@@ -175,3 +175,14 @@ def joint(model, log=print):
         p.requires_grad = True
     
     log('\tjoint')
+    
+def joint_warm(model, log=print):
+    for p in model.module.features.parameters():
+        p.requires_grad = True
+    for p in model.module.add_on_layers.parameters():
+        p.requires_grad = True
+    model.module.prototype_vectors.requires_grad = False
+    for p in model.module.last_layer.parameters():
+        p.requires_grad = True
+    
+    log('\tjoint_warm')

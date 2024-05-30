@@ -8,7 +8,7 @@ add_on_layers_type = 'regular'
 experiment_run = '009'
 
 # data_path = '/scratch/users/jiaxun1218/data/' # czh
-data_path = '/scratch/users/jiaxun1218/car_data/' # czh
+data_path = '/scratch/users/jiaxun1218/data/' # czh
 train_dir = data_path + 'train_cropped_augmented/'
 test_dir = data_path + 'test_cropped/'
 train_push_dir = data_path + 'train_cropped/'

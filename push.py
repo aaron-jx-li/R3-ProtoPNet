@@ -107,6 +107,8 @@ def push_prototypes(dataloader, # pytorch dataloader (must be unnormalized in [0
                 proto_bound_boxes)
 
     log('\tExecuting push ...')
+    
+    # global_min_fmap_patches: (1000, patch_shape)
     prototype_update = np.reshape(global_min_fmap_patches,
                                   tuple(prototype_shape))
     prototype_network_parallel.module.prototype_vectors.data.copy_(torch.tensor(prototype_update, dtype=torch.float32).cuda())
@@ -188,6 +190,7 @@ def update_prototypes_on_batch(search_batch_input,
 
         # find the closest image in this batch (or within the target class) to the prototype
         batch_min_proto_dist_j = np.amin(proto_dist_j)
+        ## This loop seems very inefficient...
         if batch_min_proto_dist_j < global_min_proto_dist[j]:
             # get the high dimensional index for this image
             batch_argmin_proto_dist_j = \

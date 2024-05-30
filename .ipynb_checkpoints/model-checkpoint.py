@@ -163,13 +163,15 @@ class PPNet(nn.Module):
         # p2 is a vector of shape (num_prototypes,)
         # then we reshape it to (num_prototypes, 1, 1)
         p2_reshape = p2.view(-1, 1, 1)
-
+        #print(x.shape, self.prototype_vectors.shape)
         xp = F.conv2d(input=x, weight=self.prototype_vectors)
+        #print("xp: ", xp.shape)
         intermediate_result = - 2 * xp + p2_reshape  # use broadcast
+        #print("intermediate: ", intermediate_result.shape)
         # x2_patch_sum and intermediate_result are of the same shape
         # (x-p)**2
         distances = F.relu(x2_patch_sum + intermediate_result)
-
+        #print("distances: ", distances.shape)
         return distances
 
     def prototype_distances(self, x):
@@ -195,10 +197,12 @@ class PPNet(nn.Module):
         because we need to return min_distances
         '''
         # global min pooling
+        # distances: (80, 1000, 7, 7)
         min_distances = -F.max_pool2d(-distances,
                                       kernel_size=(distances.size()[2],
                                                    distances.size()[3]))
         min_distances = min_distances.view(-1, self.num_prototypes)
+        # min_distances: (80, 1000)
         prototype_activations = self.distance_2_similarity(min_distances)
         logits = self.last_layer(prototype_activations)
         return logits, min_distances

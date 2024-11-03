@@ -1,18 +1,7 @@
-This code package implements the prototypical part network (ProtoPNet)
-from the paper "This Looks Like That: Deep Learning for Interpretable Image Recognition"
-(to appear at NeurIPS 2019), by Chaofan Chen* (Duke University), Oscar Li* (Duke University),
-Chaofan Tao (Duke University), Alina Jade Barnett (Duke University),
-Jonathan Su (MIT Lincoln Laboratory), and Cynthia Rudin (Duke University)
-(* denotes equal contribution).
+This repo contains the official code for the paper "Improving Prototypical Visual Explanations with Reward Reweighing, Reselection, and Retraining"
+(published in ICML 2024).
 
-This code package was SOLELY developed by the authors at Duke University,
-and licensed under MIT License (see LICENSE for more information regarding the use
-and the distribution of this code package).
-
-Prerequisites: PyTorch, NumPy, cv2, Augmentor (https://github.com/mdbloice/Augmentor)
-Recommended hardware: 4 NVIDIA Tesla P-100 GPUs or 8 NVIDIA Tesla K-80 GPUs
-
-Instructions for preparing the data:
+Instructions for preparing the CUB-200-2011 data:
 1. Download the dataset CUB_200_2011.tgz from http://www.vision.caltech.edu/visipedia/CUB-200-2011.html
 2. Unpack CUB_200_2011.tgz
 3. Crop the images using information from bounding_boxes.txt (included in the dataset)

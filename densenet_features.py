@@ -12,7 +12,7 @@ model_urls = {
     'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
     'densenet161': 'https://download.pytorch.org/models/densenet161-8d451a50.pth',
 }
-model_dir = './pretrained_models'
+model_dir = '/n/holyscratch01/hlakkaraju_lab/Lab/aaronli/ppnet_pretrained'
 
 
 class _DenseLayer(nn.Sequential):

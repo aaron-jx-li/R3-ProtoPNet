@@ -61,3 +61,8 @@ the nearest latent training patches, before running this script
 
 Instructions for combining several ProtoPNet models (Jupyter Notebook required):
 1. Run the Jupyter Notebook combine_models.ipynb
+
+1. Train ProtoPNet: python train_protopnet.py --save_path [local path for saving the ProtoPNet]
+2. Train reward model: python train_reward_model.py --data_file_path [local path for the rating file] --images_path [local path for saved images] --patterns_path [local path for saved upsampled activation patterns] --save_path [local path for saving the reward model]
+3. Perform R2 debugging: python R2_debug.py --rm_path [local path for saved reward model] --model_path [local path for saved ProtoPNet] --save_path [local path for saving the ProtoPNet]
+4. Retraining: python train_protopnet.py --load_path [local path for the saved model after R2 updates] --save_path [local path for saving the new ProtoPNet] 

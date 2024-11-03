@@ -7,14 +7,13 @@ add_on_layers_type = 'regular'
 
 experiment_run = '009'
 
-# data_path = '/scratch/users/jiaxun1218/data/' # czh
-data_path = '/scratch/users/jiaxun1218/data/' # czh
+data_path = '' # Replace with local path
 train_dir = data_path + 'train_cropped_augmented/'
 test_dir = data_path + 'test_cropped/'
 train_push_dir = data_path + 'train_cropped/'
-train_batch_size = 80 #80
-test_batch_size = 100   #100
-train_push_batch_size = 75
+train_batch_size = 80 
+test_batch_size = 100   
+train_push_batch_size = 80
 
 joint_optimizer_lrs = {'features': 1e-4,
                        'add_on_layers': 3e-3,
